@@ -128,11 +128,11 @@ public class HandledScreenMixin extends Screen {
     @Inject(at = @At(value = "HEAD"), method = "keyPressed", cancellable = true)
     private void onKeyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> ci) {
         if (this.textField != null) {
-            if (keyCode == GLFW_KEY_E && this.textField.isFocused()) {
+            if (MinecraftClient.getInstance().options.keyInventory.matchesKey(keyCode, scanCode) && this.textField.isFocused()) {
                 ci.cancel();
             }
 
-            if (keyCode == SearchableContainers.HIDE_KEY.getDefaultKey().getCode() && modifiers == 2 && !this.textField.isFocused()) {
+            if (SearchableContainers.HIDE_KEY.matchesKey(keyCode, scanCode) && modifiers == 2 && !this.textField.isFocused()) {
                 SmartTextField.isVisible = !SmartTextField.isVisible;
                 this.textField.setVisible(SmartTextField.isVisible);
             }
